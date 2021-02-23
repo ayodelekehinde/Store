@@ -54,20 +54,20 @@ class RV2Adapter(val sendItemFromRv2: SendItemFromRv2) : RecyclerView.Adapter<RV
                itemQ.text = storeItem.quantity.toString()
 
                btnAdd.setOnClickListener {
-                   val quantity = ++storeItem.quantity
-                   itemQ.text = quantity.toString()
-                   sendItemFromRv2.sendItem2(StoreItem(storeItem.item,storeItem.quantity++,storeItem.id))
+//                   val quantity = ++storeItem.quantity
+//                   itemQ.text = quantity.toString()
+                   sendItemFromRv2.sendItem2(storeItem, true)
                }
                btnMinus.setOnClickListener {
-                   val quantity = --storeItem.quantity
-                   itemQ.text = quantity.toString()
-                   sendItemFromRv2.sendItem2(StoreItem(storeItem.item,storeItem.quantity--,storeItem.id))
+//                   val quantity = --storeItem.quantity
+//                   itemQ.text = quantity.toString()
+                   sendItemFromRv2.sendItem2(storeItem, false)
                }
            }
         }
     }
 
     public interface SendItemFromRv2{
-        fun sendItem2(storeItem: StoreItem)
+        fun sendItem2(storeItem: StoreItem, isAdd: Boolean)
     }
 }

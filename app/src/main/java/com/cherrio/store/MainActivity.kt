@@ -2,6 +2,7 @@ package com.cherrio.store
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,10 +46,20 @@ class MainActivity : AppCompatActivity(), RV1Adapter.SendItemFromRv1, RV2Adapter
         })
 
         viewModel.rv1ObserveringRv2.observe(this, Observer { storeItem ->
+            println("ObservingRV1Value $storeItem ")
+            rV2Adapter.update(storeItem)
             rV1Adapter.updateStore(storeItem)
         })
         viewModel.rv2ObserveringRv1.observe(this, Observer { storeItem ->
+            println("ObservingRV2Value $storeItem ")
+            rV1Adapter.updateStore(storeItem)
             rV2Adapter.update(storeItem)
+        })
+        viewModel.listenerObserver.observe(this, Observer { isMax ->
+            if (isMax){
+                Toast.makeText(this, "You've reached Max!!!!", Toast.LENGTH_SHORT).show()
+            }
+
         })
     }
 
@@ -64,12 +75,12 @@ class MainActivity : AppCompatActivity(), RV1Adapter.SendItemFromRv1, RV2Adapter
         viewModel.setData(storeItem)
     }
 
-    override fun sendItem2(storeItem: StoreItem) {
-        viewModel.setRV1Value(storeItem)
+    override fun sendItem2(storeItem: StoreItem, isAdd: Boolean) {
+        viewModel.setRV1Value(storeItem,isAdd)
     }
 
-    override fun incrementOrDecrement(storeItem: StoreItem) {
-        println("incrementOrDecrement result $storeItem")
-        viewModel.setRV2Value(storeItem)
+    override fun incrementOrDecrement(storeItem: StoreItem, isAdd: Boolean) {
+        //We'll want the view to be numb as possible, no single condition check
+        viewModel.setRV2Value(storeItem, isAdd)
     }
 }

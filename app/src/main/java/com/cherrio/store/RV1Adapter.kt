@@ -45,14 +45,14 @@ class RV1Adapter(val sendItemFromRv1: SendItemFromRv1) : RecyclerView.Adapter<RV
                    sendItemFromRv1.sendItem(storeItem)
                }
                btnAdd.setOnClickListener {
-                   val quantity = ++storeItem.quantity
-                   itemQ.text = quantity.toString()
-                   sendItemFromRv1.incrementOrDecrement(StoreItem(storeItem.item,storeItem.quantity++,storeItem.id))
+//                   val quantity = ++storeItem.quantity
+//                   itemQ.text = quantity.toString()
+                   sendItemFromRv1.incrementOrDecrement(storeItem, true)
                }
                btnMinus.setOnClickListener {
-                   val quantity = --storeItem.quantity
-                   itemQ.text = quantity.toString()
-                   sendItemFromRv1.incrementOrDecrement(StoreItem(storeItem.item,storeItem.quantity--,storeItem.id))
+//                   val quantity = --storeItem.quantity
+//                   itemQ.text = quantity.toString()
+                   sendItemFromRv1.incrementOrDecrement(storeItem,false)
                }
 
            }
@@ -61,6 +61,6 @@ class RV1Adapter(val sendItemFromRv1: SendItemFromRv1) : RecyclerView.Adapter<RV
 
     public interface SendItemFromRv1{
         fun sendItem(storeItem: StoreItem)
-        fun incrementOrDecrement(storeItem: StoreItem)
+        fun incrementOrDecrement(storeItem: StoreItem, isAdd: Boolean)
     }
 }
