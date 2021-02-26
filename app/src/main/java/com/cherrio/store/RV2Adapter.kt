@@ -2,6 +2,7 @@ package com.cherrio.store
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.cherrio.store.databinding.RvItemBinding
 
@@ -18,15 +19,14 @@ class RV2Adapter(val sendItemFromRv2: SendItemFromRv2) : RecyclerView.Adapter<RV
     }
 
     override fun onBindViewHolder(holder: RV2VH, position: Int) {
-        println("onBindViewHolder called")
         holder.bind(stores[position])
     }
 
     fun update(storeItem: StoreItem){
-        println("RV2Adapter result $storeItem")
         stores.forEach {
             if (it.id == storeItem.id){
                it.quantity = storeItem.quantity
+                sendItemFromRv2.getTotalItems(stores)
                 notifyDataSetChanged()
             }
         }
@@ -34,13 +34,15 @@ class RV2Adapter(val sendItemFromRv2: SendItemFromRv2) : RecyclerView.Adapter<RV
     fun setData(storeItem: StoreItem){
         if(stores.isEmpty()){
             stores.add(storeItem)
+            sendItemFromRv2.getTotalItems(stores)
             notifyDataSetChanged()
         }else {
            if (storeItem !in stores){
-               stores.add(storeItem)
-               notifyDataSetChanged()
+                   stores.add(storeItem)
+                   sendItemFromRv2.getTotalItems(stores)
+                   notifyDataSetChanged()
+               }
 
-           }
 
         }
     }
@@ -69,5 +71,8 @@ class RV2Adapter(val sendItemFromRv2: SendItemFromRv2) : RecyclerView.Adapter<RV
 
     public interface SendItemFromRv2{
         fun sendItem2(storeItem: StoreItem, isAdd: Boolean)
+        fun getTotalItems(stores: ArrayList<StoreItem>)
     }
+
+
 }

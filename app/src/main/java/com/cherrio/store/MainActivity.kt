@@ -46,12 +46,10 @@ class MainActivity : AppCompatActivity(), RV1Adapter.SendItemFromRv1, RV2Adapter
         })
 
         viewModel.rv1ObserveringRv2.observe(this, Observer { storeItem ->
-            println("ObservingRV1Value $storeItem ")
             rV2Adapter.update(storeItem)
             rV1Adapter.updateStore(storeItem)
         })
         viewModel.rv2ObserveringRv1.observe(this, Observer { storeItem ->
-            println("ObservingRV2Value $storeItem ")
             rV1Adapter.updateStore(storeItem)
             rV2Adapter.update(storeItem)
         })
@@ -77,6 +75,10 @@ class MainActivity : AppCompatActivity(), RV1Adapter.SendItemFromRv1, RV2Adapter
 
     override fun sendItem2(storeItem: StoreItem, isAdd: Boolean) {
         viewModel.setRV1Value(storeItem,isAdd)
+    }
+
+    override fun getTotalItems(stores: ArrayList<StoreItem>) {
+        viewModel.setRV2StoreItems(stores)
     }
 
     override fun incrementOrDecrement(storeItem: StoreItem, isAdd: Boolean) {
